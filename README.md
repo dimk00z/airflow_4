@@ -2,25 +2,38 @@
 
 ## Challenge 4
 
-Скрипт [data_collector_dag.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_dag.py) содержит четыре таска:
+Задание представляет собой апдейт [задания 2](https://github.com/dimk00z/airflow_2)
+Было необходимо переписать ДАГ с добавлением ветвления.
 
-1. `load_csv_op` загружает данные по заказам
+Получилась следующая структура:
+![alt text](Dag_structure.png)
 
-2. `load_transactions_operations_op` загружает данные по транзакциям из json
+Скрипты разбиты логически по файлам:
 
-3. `load_from_postgres_op` подгружает данные о пользователях и товарах
+1. [data_collector_hw4_dag.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_dag.py) - собственно сам ДАГ и пременные-операторы
 
-4. `save_data_op` собирает финальный датасет и загружает его в базу
+2. [data_collector_hw4_operators.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_operators.py) содержит операторы:
 
-Промежуточные данные храняться в data в виде csv файлов.
+- `LoadOrdersOperator` - загрузка данных о заказах;
+- `LoadTransactionsOperator` - загрузка данных о транзакциях;
+- `LoadGoodsCustomersOperator` - загрузка данных о товарах и покупателях из PostgreSQL;
 
-### Как установить
+все загрузчики чистят дубли, надеюсь...
 
-Для корректной работы скрипта должны быть установлены зависимости:
+- `FinalSaveDataOperator` - сохранение в PostgreSQL;
+- `TelegramErrorSendOperator` - отправка ошибки в телеграм ботом;
 
-```
-pip install -r requirements.txt
-```
+3. [data_collector_hw4_check_operators.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_check_operators.py) содержит операторы:
+
+- `PostgreCheckOperator` - проверка соединения с БД, срабатывает, когда нет соединения, не подходят логин/пароль, отсутствуют прописанные соединения в Airflow;
+- `DataCheckOperator` - проверка и сбор финального дата сета.
+  Выкидывает, когда на выходе получается записей меньше 70% от таблицы транзакций или в целом меньше 10 записей.
+  Запись принимается некорректной, когда
+  1. ФИО после чистки содержит меньше 2х слов
+  2. Отстутсвует название товара
+  3. Количество товаров меньше 1
+
+4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данныъ
 
 ### Цель проекта
 
