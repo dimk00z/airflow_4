@@ -37,7 +37,7 @@
   2. Отстутсвует название товара
   3. Количество товаров меньше 1
 
-4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данныъ
+4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данных
 
 ### Цель проекта
 
