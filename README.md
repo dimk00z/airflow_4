@@ -10,9 +10,9 @@
 
 Скрипты разбиты логически по файлам:
 
-1. [data_collector_hw4_dag.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_dag.py) - собственно сам ДАГ и пременные-операторы
+1. [data_collector_hw4_dag.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_dag.py) - собственно сам ДАГ и пременные-операторы
 
-2. [data_collector_hw4_operators.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_operators.py) содержит операторы:
+2. [data_collector_hw4_operators.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_operators.py) содержит операторы:
 
 - `LoadOrdersOperator` - загрузка данных о заказах;
 - `LoadTransactionsOperator` - загрузка данных о транзакциях;
@@ -23,7 +23,7 @@
 - `FinalSaveDataOperator` - сохранение в PostgreSQL;
 - `TelegramErrorSendOperator` - отправка ошибки в телеграм ботом;
 
-3. [data_collector_hw4_check_operators.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_check_operators.py) содержит операторы:
+3. [data_collector_hw4_check_operators.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_check_operators.py) содержит операторы:
 
 - `PostgreCheckOperator` - проверка соединения с БД, срабатывает, когда нет соединения, не подходят логин/пароль, отсутствуют прописанные соединения в Airflow;
 - `DataCheckOperator` - проверка и сбор финального дата сета.
@@ -33,7 +33,7 @@
   2. Отстутсвует название товара
   3. Количество товаров меньше 1
 
-4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_2/blob/master/dags/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данныъ
+4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данныъ
 
 ### Цель проекта
 
