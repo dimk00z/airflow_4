@@ -16,12 +16,16 @@
 
 - `LoadOrdersOperator` - загрузка данных о заказах;
 - `LoadTransactionsOperator` - загрузка данных о транзакциях;
-- `LoadGoodsCustomersOperator` - загрузка данных о товарах и покупателях из PostgreSQL;
+- `LoadGoodsCustomersOperator` - загрузка данных о товарах и покупателях из PostgreSQL.
 
 все загрузчики чистят дубли, надеюсь...
 
 - `FinalSaveDataOperator` - сохранение в PostgreSQL;
-- `TelegramErrorSendOperator` - отправка ошибки в телеграм ботом;
+- `TelegramErrorSendOperator` - отправка ошибки в телеграм ботом. Для корректной работы необходимо наличие .env файла, содержащего себе
+
+`TELEGRAM_PROXY=socks5://login:pass@host (использование необязательно)`
+`TELEGRAM_BOT_TOKEN='токен телеграма'`
+`TELEGRAM_CHAT_ID='чат телеграма'`
 
 3. [data_collector_hw4_check_operators.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_check_operators.py) содержит операторы:
 
@@ -38,3 +42,7 @@
 ### Цель проекта
 
 Код написан в образовательных целях на онлайн-курсе [Airflow 101](https://airflow101.python-jitsu.club/).
+
+```
+
+```
