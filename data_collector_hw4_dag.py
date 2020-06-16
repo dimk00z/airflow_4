@@ -1,3 +1,4 @@
+from datetime import timedelta
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.dummy_operator import DummyOperator
@@ -6,16 +7,26 @@ from data_collector_hw4_operators import LoadGoodsCustomersOperator, \
     LoadOrdersOperator, LoadTransactionsOperator
 from data_collector_hw4_check_operators import PostgreCheckOperator, \
     DataCheckOperator
+from telegram_eventer import TelegramEventer
 
 DIR_FOR_CSV_FILES = '/home/dimk/airflow/data/'
 FILES = ['transactions', 'orders', 'goods',
          'temp', 'customers', 'final_dataset']
 FILE_NAMES = {key: f'{DIR_FOR_CSV_FILES}{key}.csv' for key in FILES}
+ENV_FILE = '/home/dimk/airflow/.env'
+
+telegram_eventer = TelegramEventer(env_path=ENV_FILE)
 
 default_args = {
     'owner': 'Dimk_smith',
-    'env_path': '/home/dimk/airflow/.env',
-    'start_date': days_ago(2)}
+    'env_path': ENV_FILE,
+    'start_date': days_ago(2),
+    'on_success_callback': telegram_eventer.send_message,
+    'on_retry_callback': telegram_eventer.send_message,
+    'on_failure_callback': telegram_eventer.send_message,
+    'retries': 2,
+    'retry_delay': timedelta(seconds=30),
+}
 
 dag = DAG(dag_id='data_collector_hw4',
           schedule_interval='@once',
