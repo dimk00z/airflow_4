@@ -1,6 +1,8 @@
 # Airflow 101
 
-## Challenge 4
+## Challenge 4-5
+
+### Challenge 4
 
 Задание представляет собой апдейт [задания 2](https://github.com/dimk00z/airflow_2)
 Было необходимо переписать ДАГ с добавлением ветвления.
@@ -38,6 +40,14 @@
   3. Количество товаров меньше 1
 
 4. [data_collector_hw4_utils.py](https://github.com/dimk00z/airflow_4/blob/master/data_collector_hw4_utils.py) содержат дополнительные функции сохранения/чтения данных
+
+### Challenge 5
+
+Для задания был добавлен класс [TelegramEventer](https://github.com/dimk00z/airflow_4/blob/master/telegram_eventer.py), который в зависимости от состояния "таски" отправляет в телеграм сообщение о состоянии.
+
+Так же был добавлен ДАГ [yandex_checker](https://github.com/dimk00z/airflow_4/blob/master/yandex_check.py), который рандомно собирает ya.ru с вероятностью ошибки приверно 33% для проверки работоспособности отправки состояний в телеграм.
+
+На [сервере](http://34.90.21.114/grafana) подняты Grafana и Prometheus.
 
 ### Цель проекта
 
