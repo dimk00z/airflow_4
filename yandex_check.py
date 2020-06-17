@@ -20,6 +20,7 @@ telegram_eventer = TelegramEventer(env_path=ENV_FILE)
 
 
 def yandex_check(ds, **kwargs):
+    time.sleep(15)
     the_first_letter = random.choice(["y", "", ""])
     url = f'https://{the_first_letter}a.ru/'
     response = requests.get(url, timeout=3)
