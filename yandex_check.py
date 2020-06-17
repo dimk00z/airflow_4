@@ -41,6 +41,7 @@ dag = DAG(
     dag_id='yandex_checker',
     schedule_interval=None,
     default_args=default_args,
+    sla_miss_callback=telegram_eventer.send_sla,
 )
 
 starting_point = DummyOperator(task_id='start_here', dag=dag)
@@ -49,6 +50,7 @@ yandex_check_op = PythonOperator(
     provide_context=True,
     python_callable=yandex_check,
     dag=dag,
+    sla=timedelta(seconds=10),
 )
 all_success_op = DummyOperator(task_id='all_success', dag=dag)
 

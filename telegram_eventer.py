@@ -22,15 +22,24 @@ class TelegramEventer():
         if use_proxy:
             self.proxy = os.getenv("TELEGRAM_PROXY")
 
+    def bot_init(self):
+        if self.proxy:
+            telebot.apihelper.proxy = {
+                'https': self.proxy}
+        return telebot.TeleBot(self.token)
+
+    def send_sla(self, dag, task_list, blocking_task_list, slas, blocking_tis):
+        bot = self.bot_init()
+        message = 'SLA was missed on DAG %(dag)s by task id %(blocking_tis)s with task list %(task_list)s which are blocking ' \
+            '%(blocking_task_list)s'
+        bot.send_message(self.chat_id_for_send, message)
+
     def send_message(self, context):
         task_id = context['ti'].task_id
         task_state = context["ti"].state
         if (task_id == 'all_success' and task_state == 'success') \
                 or task_state != 'success':
-            if self.proxy:
-                telebot.apihelper.proxy = {
-                    'https': self.proxy}
-            bot = telebot.TeleBot(self.token)
+            bot = self.bot_init()
             dag_id = context['dag'].dag_id
             bot.send_message(self.chat_id_for_send,
                              f'''{self.messages[task_state]} Dag_id-{dag_id}, task_id-{task_id}''')
