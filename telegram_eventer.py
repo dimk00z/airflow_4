@@ -8,7 +8,7 @@ class TelegramEventer():
     messages = {
         'failed': 'Everything is bad:(\n',
         'success': 'We did it!\n',
-        'up_for_retry': "We're trying. You should believe us...\n"
+        'up_for_retry': "We're trying. You should believe in us...\n"
     }
 
     def __init__(self,
