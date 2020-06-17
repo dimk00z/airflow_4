@@ -28,10 +28,9 @@ class TelegramEventer():
                 'https': self.proxy}
         return telebot.TeleBot(self.token)
 
-    def send_sla(self, dag, task_list, blocking_task_list, slas, blocking_tis):
+    def send_sla(self, **kwargs):
         bot = self.bot_init()
-        message = 'SLA was missed on DAG %(dag)s by task id %(blocking_tis)s with task list %(task_list)s which are blocking ' \
-            '%(blocking_task_list)s'
+        message = 'SLA was missed on ..'
         bot.send_message(self.chat_id_for_send, message)
 
     def send_message(self, context):
