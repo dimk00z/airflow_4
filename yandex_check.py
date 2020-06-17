@@ -45,7 +45,6 @@ default_args = {
 
 dag = DAG(
     dag_id='yandex_checker',
-    schedule_interval=None,
     default_args=default_args,
     schedule_interval='@once'
 )
