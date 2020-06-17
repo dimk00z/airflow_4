@@ -36,8 +36,8 @@ default_args = {
     'on_success_callback': telegram_eventer.send_message,
     'on_retry_callback': telegram_eventer.send_message,
     'on_failure_callback': telegram_eventer.send_message,
-    #    'sla_miss_callback': telegram_eventer.send_sla,
-    'sla': timedelta(seconds=10),
+    'sla_miss_callback': telegram_eventer.send_sla,
+    # 'sla': timedelta(seconds=10),
     'retries': 2,
     'retry_delay': timedelta(seconds=10),
     'email_on_failure': False,
@@ -45,7 +45,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='yandex_checker',
+    dag_id='hw_5_yandex_checker',
     default_args=default_args,
     #    schedule_interval='@once'
     schedule_interval=timedelta(hours=1)
@@ -58,7 +58,6 @@ yandex_check_op = PythonOperator(
     python_callable=yandex_check,
     dag=dag,
     sla=timedelta(seconds=10),
-    sla_miss_callback=telegram_eventer.send_sla,
 )
 all_success_op = DummyOperator(task_id='all_success', dag=dag)
 

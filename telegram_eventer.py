@@ -30,7 +30,7 @@ class TelegramEventer():
 
     def send_sla(self, **kwargs):
         bot = self.bot_init()
-        message = 'SLA was missed on ..'
+        message = f'SLA was missed on {kwargs}'
         bot.send_message(self.chat_id_for_send, message)
 
     def send_message(self, context):
