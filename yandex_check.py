@@ -30,12 +30,16 @@ def yandex_check(ds, **kwargs):
 default_args = {
     'depends_on_past': False,
     'start_date': days_ago(7),
-    'email': 'never@call.me',
+    'email': ['dimk00z@mail.com'],
     'on_success_callback': telegram_eventer.send_message,
     'on_retry_callback': telegram_eventer.send_message,
     'on_failure_callback': telegram_eventer.send_message,
-    'retries': 5,
+    'sla_miss_callback': telegram_eventer.send_sla,
+    'sla': timedelta(seconds=10),
+    'retries': 2,
     'retry_delay': timedelta(seconds=10),
+    'email_on_failure': False,
+    'email_on_retry': False,
 }
 
 dag = DAG(
@@ -51,7 +55,6 @@ yandex_check_op = PythonOperator(
     provide_context=True,
     python_callable=yandex_check,
     dag=dag,
-    sla=timedelta(seconds=10),
 )
 all_success_op = DummyOperator(task_id='all_success', dag=dag)
 
