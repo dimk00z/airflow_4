@@ -28,6 +28,7 @@ def yandex_check(ds, **kwargs):
 
 
 default_args = {
+    'owner': 'Dimk_smith',
     'depends_on_past': False,
     'start_date': days_ago(7),
     'email': ['dimk00z@mail.com'],
@@ -46,7 +47,7 @@ dag = DAG(
     dag_id='yandex_checker',
     schedule_interval=None,
     default_args=default_args,
-    sla_miss_callback=telegram_eventer.send_sla,
+    schedule_interval='@once'
 )
 
 starting_point = DummyOperator(task_id='start_here', dag=dag)
