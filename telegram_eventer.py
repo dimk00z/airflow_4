@@ -28,7 +28,7 @@ class TelegramEventer():
                 'https': self.proxy}
         return telebot.TeleBot(self.token)
 
-    def send_sla(self, **kwargs):
+    def send_sla(self, *args, **kwargs):
         bot = self.bot_init()
         message = f'SLA was missed on {kwargs}'
         bot.send_message(self.chat_id_for_send, message)
