@@ -19,7 +19,7 @@ telegram_eventer = TelegramEventer(env_path=ENV_FILE)
 
 def canary_test(*args, **kwargs):
     time.sleep(15)
-    the_first_letter = random.choice(["y", "", "", "", "", ""])
+    the_first_letter = random.choice(["y", "", ""])
     url = f'https://{the_first_letter}a.ru/'
     time.sleep(random.choice([15, 30, 45]))
     response = requests.get(url, timeout=3)
@@ -36,9 +36,8 @@ default_args = {
 
 with DAG(dag_id='hw_5_canary_test',
          default_args=default_args,
-         schedule_interval=timedelta(minutes=1),
+         schedule_interval=timedelta(hours=1),
          sla_miss_callback=telegram_eventer.send_sla,
-         #         on_failure_callback=telegram_eventer.send_message,
          ) as dag:
 
     starting_point = DummyOperator(task_id='start_here', dag=dag)
@@ -46,7 +45,6 @@ with DAG(dag_id='hw_5_canary_test',
     task_canary_op = PythonOperator(
         task_id='canary_test',
         sla=timedelta(seconds=10),
-        #        sla=timedelta(seconds=23),
         python_callable=canary_test,
     )
 
