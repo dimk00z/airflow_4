@@ -17,7 +17,7 @@ ENV_FILE = '/home/dimk/airflow/.env'
 telegram_eventer = TelegramEventer(env_path=ENV_FILE)
 
 
-def canary_test(ds, **kwargs):
+def canary_test(*args, **kwargs):
     time.sleep(15)
     the_first_letter = random.choice(["y", "", "", "", "", ""])
     url = f'https://{the_first_letter}a.ru/'
@@ -30,20 +30,23 @@ def canary_test(ds, **kwargs):
 default_args = {
     'owner': 'Dimk_smith',
     'start_date': days_ago(7),
+    'on_success_callback': telegram_eventer.send_message,
+    'on_failure_callback': telegram_eventer.send_message,
 }
 
 with DAG(dag_id='hw_5_canary_test',
          default_args=default_args,
          schedule_interval=timedelta(minutes=1),
          sla_miss_callback=telegram_eventer.send_sla,
-         on_failure_callback=telegram_eventer.send_message,
+         #         on_failure_callback=telegram_eventer.send_message,
          ) as dag:
 
     starting_point = DummyOperator(task_id='start_here', dag=dag)
 
     task_canary_op = PythonOperator(
         task_id='canary_test',
-        sla=timedelta(seconds=23),
+        sla=timedelta(seconds=10),
+        #        sla=timedelta(seconds=23),
         python_callable=canary_test,
     )
 
